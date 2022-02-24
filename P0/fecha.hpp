@@ -17,7 +17,7 @@ class Fecha {
         int anno;
         void fechaSistema(); //fechaSistema sirve para darle los valores de la fecha del sistema
                              // a los atributos de la instancia
-    
+        void comprobarFecha();
 };
 
 #endif

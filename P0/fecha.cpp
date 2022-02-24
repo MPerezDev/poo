@@ -23,11 +23,17 @@ void Fecha::fechaSistema(){
 
 }
 
-Fecha operator =(const Fecha& f){
+Fecha Fecha::operator =(const Fecha& f){
 
     dia = f.dia;
     mes = f.mes;
     anno = f.anno;
+
+}
+
+void Fecha::comprobarFecha(){
+
+    
 
 }
 
