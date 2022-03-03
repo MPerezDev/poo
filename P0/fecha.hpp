@@ -8,7 +8,7 @@ class Fecha {
        Fecha(const char* cadena);
        Fecha operator =(const Fecha& f);
 
-        static const int AnnoMax = 2037;
+        static const int AnnoMax = 2037; //Año limite
         static const int AnnoMin = 1902;
         
     private:
