@@ -18,7 +18,7 @@ void Fecha::fechaSistema(){
     std::tm* fechaCFormato = std::localtime(&fechaSFormato); //Transformamos la fecha obtenida, guardándola
                                                         //en el struct std::tm, que tiene unas cuantas variables que vamos a usar ahora
     if(dia==0) dia = fechaCFormato->tm_mday; //tm_mday tiene el dia del mes en el que estamos
-    if(mes==0) mes = fechaCFormato->tm_mon + 1; //tm_mon cuenta los meses del 0 al 11
+    if(mes==0) mes = fechaCFormato->tm_mon + 1; //tm_mon cuenta los meses del 0 al 11, por lo que le sumamos 1
     if(anno==0) anno = fechaCFormato->tm_year + 1900; //tm_year cuenta los años desde 1900, por eso le sumamos esta cantidad
 
 }
