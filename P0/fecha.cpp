@@ -33,6 +33,8 @@ Fecha Fecha::operator =(const Fecha& f){
 
 void Fecha::comprobarFecha(){
 
+    static const int dias [] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+    
     
 
 }
