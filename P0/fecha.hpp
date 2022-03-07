@@ -4,7 +4,7 @@
 class Fecha {
     public:
        explicit Fecha(int d=0,int m=0,int a=0);
-       Fecha(Fecha& f);
+       Fecha(const Fecha& f);
        Fecha(const char* cadena);
        Fecha operator =(const Fecha& f);
 
@@ -22,6 +22,13 @@ class Fecha {
         int mes() const noexcept {return mes_;}
         int anno() const noexcept {return anno_;}
 
+        Fecha& operator ++();
+        Fecha operator ++(int);
+        Fecha& operator --();
+        Fecha operator --(int);
+        Fecha& operator +=(int n);
+        Fecha& operator -=(int n);
+        
 
     private:
         int dia_;
@@ -30,6 +37,8 @@ class Fecha {
         void fechaSistema(); //fechaSistema sirve para darle los valores de la fecha del sistema
                              // a los atributos de la instancia
         void comprobarFecha();
+        const int dias [13] = {0,31,28,31,30,31,30,31,31,30,31,30,31}; //Usamos un vector en el que guardamos los días que tiene cada mes (en años no bisiestos)
+
 };
 
 //A continuación introducimos las sobrecargas de operadores
@@ -41,6 +50,10 @@ bool operator <(const Fecha& fecha1, const Fecha& fecha2);
 bool operator >(const Fecha& fecha1, const Fecha& fecha2);
 bool operator <=(const Fecha& fecha1, const Fecha& fecha2);
 bool operator >=(const Fecha& fecha1, const Fecha& fecha2);
+Fecha& operator +(const Fecha& f,int n);
+Fecha& operator +(int n,const Fecha& f);
+Fecha& operator -(const Fecha& f,int n);
+Fecha& operator -(int n,const Fecha& f);
 
 
 #endif
