@@ -118,7 +118,7 @@ Fecha Fecha::operator --(int){
 
 }
 
-//Suma
+//Suma 1 (Fecha -- entero)
 Fecha& operator +(const Fecha& f,int n){
 
     Fecha aux(f);
@@ -133,7 +133,7 @@ Fecha& operator +(const Fecha& f,int n){
 
 }
 
-//Suma
+//Suma 2 (entero -- Fecha)
 Fecha& operator +(int n,const Fecha& f){
 
     Fecha aux(f);
@@ -148,7 +148,7 @@ Fecha& operator +(int n,const Fecha& f){
 
 }
 
-//Resta
+//Resta 1 (Fecha -- entero)
 Fecha& operator -(const Fecha& f,int n){
 
     Fecha aux(f);
@@ -163,7 +163,7 @@ Fecha& operator -(const Fecha& f,int n){
 
 }
 
-//Resta
+//Resta 2 (entero -- Fecha)
 Fecha& operator -(int n,const Fecha& f){
 
     Fecha aux(f);

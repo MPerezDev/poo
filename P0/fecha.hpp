@@ -43,13 +43,18 @@ class Fecha {
 
 //A continuación introducimos las sobrecargas de operadores
 //Las hacemos fuera de la clase, por lo que en ellas recurrimos a
-//los observadores
+//los observadores. Se declaran en la cabecera las dos fechas con const ya que no se van a modificar.
 bool operator ==(const Fecha& fecha1, const Fecha& fecha2);
 bool operator !=(const Fecha& fecha1, const Fecha& fecha2);
 bool operator <(const Fecha& fecha1, const Fecha& fecha2);
 bool operator >(const Fecha& fecha1, const Fecha& fecha2);
 bool operator <=(const Fecha& fecha1, const Fecha& fecha2);
 bool operator >=(const Fecha& fecha1, const Fecha& fecha2);
+
+//Declaramos estos operadores fuera de la clase dado que podemos encontrarnos 
+//el caso de que sea entero + fecha o fecha + entero. Para el segundo nos valdría 
+//con el implícito pero para el primero no, por lo que declaramos ambos operadores fuera.
+//Se aplica igual para la suma.
 Fecha& operator +(const Fecha& f,int n);
 Fecha& operator +(int n,const Fecha& f);
 Fecha& operator -(const Fecha& f,int n);
