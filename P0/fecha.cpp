@@ -3,13 +3,19 @@
 #include <ctime>
 #include "fecha.hpp"
 
+
+//#include <locale>
+//std::locale::global(std::locale("es_ES.utf8")); Para cambiar al sistema local
+
+
+
 Fecha::Fecha(int d,int m, int a): dia_{d}, mes_{m}, anno_{a}{ //Asignamos los valores
 
     fechaSistema(); //Comprobamos si alguno de los atributos debe ser sustituido por los de la fecha actual del sistema
 
 }
 
-Fecha::Fecha(const Fecha& f): dia_{f.dia_}, mes_{f.mes_}, anno_{f.anno_}{} //Constructor de copia (100% mio)
+Fecha::Fecha(const Fecha& f): dia_{f.dia_}, mes_{f.mes_}, anno_{f.anno_}{} //Constructor de copia. Recomendable no hacerlo. 
 
 Fecha::Fecha(const char* cadena){
 
