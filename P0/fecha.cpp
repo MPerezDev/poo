@@ -7,7 +7,7 @@
 //#include <locale>
 //std::locale::global(std::locale("es_ES.utf8")); Para cambiar al sistema local
 
-
+//Fecha pendiente de compilar
 
 Fecha::Fecha(int d,int m, int a): dia_{d}, mes_{m}, anno_{a}{ //Asignamos los valores
 
