@@ -1,22 +1,36 @@
 #include <iostream>
-#include <cstring>
+#include <cstdlib>
 #include <ctime>
 #include "fecha.hpp"
 
-Fecha::Fecha(int d,int m, int a): dia_{d}, mes_{m}, anno_{a}{ //Asignamos los valores
+Fecha::Fecha(int d,int m, int a): dia_(d), mes_(m), anno_(a){ //Asignamos los valores
 
     fechaSistema(); //Comprobamos si alguno de los atributos debe ser sustituido por los de la fecha actual del sistema
 
 }
 
-Fecha::Fecha(const Fecha& f): dia_{f.dia_}, mes_{f.mes_}, anno_{f.anno_}{} //Constructor de copia (100% mio)
-
+//Constructor de copia no hace falta, se coge automáticamente con el constructor por defecto
+Fecha::Fecha(const Fecha& f): dia_(f.dia_), mes_(f.mes_), anno_(f.anno_){}
+//Constructor a partir de cadena
 Fecha::Fecha(const char* cadena){
 
-    
+    int dia,mes,anno; //Declaramos estas variables, que son las que van a contener los valores de la cadena
+
+    if(sscanf(cadena,"%d/%d/%d", &dia, &mes, &anno) != 3){ //Con sscanf obtenemos los valores de la cadena
+        throw Invalida("Fecha incorrecta"); //Lanzamos excepción en caso de que no tengamos fecha con formato correcto
+    }else{
+
+        dia_ = dia;
+        mes_ = mes;
+        anno_ = anno;
+
+        fechaSistema();
+        comprobarFecha(); //Hacemos las comprobaciones habituales sobre el ímplicito, ya que los valores han sido copiados.
+    }
 
 }
 
+//Añadir fecha actual del sistema en caso de que un dato no esté bien
 void Fecha::fechaSistema(){
 
     std::time_t fechaSFormato = std::time(nullptr); //cogemos la fecha actual del sistema
@@ -28,14 +42,18 @@ void Fecha::fechaSistema(){
 
 }
 
-Fecha Fecha::operator =(const Fecha& f){
+//Sobrecarga de asignación =
+Fecha& Fecha::operator =(const Fecha& f){
 
     dia_ = f.dia_;
     mes_ = f.mes_;
     anno_ = f.anno_;
 
+    return *this;
+
 }
 
+//Con este método comprobamos que la fecha esté dentro de los valores correctos
 void Fecha::comprobarFecha(){
 
     int bisiesto = static_cast<int>(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0));
@@ -59,6 +77,27 @@ void Fecha::comprobarFecha(){
     }
 
 }
+
+//Sobrecarga de operador <<
+std::ostream& operator <<(std::ostream& os, Fecha& f){
+
+    const char dias_[7][10] = {"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
+    const char meses_[12][15] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+
+    //Con estos cálculos obtenemos el día de la semana
+    int result1=(f.anno_-1)%7;
+    int result2=(f.anno_-1)/4;
+    int result3=(3*(((f.anno_-1)/100)+1))/4;
+    int result4=(result2-result3)%7;
+    int result5=f.dia_%7;
+    int diasem=(result1+result4+f.mes_+result5)%7;
+
+    return os << dias_[diasem] << " " << f.dia_ << " de " << meses_[f.mes_ - 1] << " de " << f.anno_;
+
+
+
+}
+
 
 //Sobrecarga de operadores. Asignaciones
 
@@ -238,7 +277,13 @@ bool operator >=(const Fecha& fecha1, const Fecha& fecha2){
 }
 
 
+//Destructor
 
+Fecha::~Fecha(){
+
+
+
+}
 
 
 

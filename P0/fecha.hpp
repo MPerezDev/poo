@@ -6,7 +6,8 @@ class Fecha {
        explicit Fecha(int d=0,int m=0,int a=0);
        Fecha(const Fecha& f);
        Fecha(const char* cadena);
-       Fecha operator =(const Fecha& f);
+       Fecha& operator =(const Fecha& f);
+       friend std::ostream& operator <<(std::ostream& os, Fecha& f);
 
         static const int AnnoMax = 2037; //Año limite
         static const int AnnoMin = 1902;
@@ -29,6 +30,7 @@ class Fecha {
         Fecha& operator +=(int n);
         Fecha& operator -=(int n);
         
+        ~Fecha();
 
     private:
         int dia_;
