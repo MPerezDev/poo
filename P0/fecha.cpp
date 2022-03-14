@@ -3,7 +3,13 @@
 #include <ctime>
 #include "fecha.hpp"
 
-Fecha::Fecha(int d,int m, int a): dia_(d), mes_(m), anno_(a){ //Asignamos los valores
+
+//#include <locale>
+//std::locale::global(std::locale("es_ES.utf8")); Para cambiar al sistema local
+
+
+
+Fecha::Fecha(int d,int m, int a): dia_{d}, mes_{m}, anno_{a}{ //Asignamos los valores
 
     fechaSistema(); //Comprobamos si alguno de los atributos debe ser sustituido por los de la fecha actual del sistema
 
@@ -157,7 +163,7 @@ Fecha Fecha::operator --(int){
 
 }
 
-//Suma
+//Suma 1 (Fecha -- entero)
 Fecha& operator +(const Fecha& f,int n){
 
     Fecha aux(f);
@@ -172,7 +178,7 @@ Fecha& operator +(const Fecha& f,int n){
 
 }
 
-//Suma
+//Suma 2 (entero -- Fecha)
 Fecha& operator +(int n,const Fecha& f){
 
     Fecha aux(f);
@@ -187,7 +193,7 @@ Fecha& operator +(int n,const Fecha& f){
 
 }
 
-//Resta
+//Resta 1 (Fecha -- entero)
 Fecha& operator -(const Fecha& f,int n){
 
     Fecha aux(f);
@@ -202,7 +208,7 @@ Fecha& operator -(const Fecha& f,int n){
 
 }
 
-//Resta
+//Resta 2 (entero -- Fecha)
 Fecha& operator -(int n,const Fecha& f){
 
     Fecha aux(f);
