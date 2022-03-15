@@ -26,6 +26,17 @@ class Cadena{
         bool operator >=(const Cadena& c);
 
 
+        //At y sobrecarga de operador []
+        char& operator [](unsigned i) {return s_[i];}
+        char& operator [](unsigned i) const {return s_[i];}
+
+        char& at(unsigned i);
+        char& at(unsigned i) const;
+
+        //Substr
+        Cadena substr(unsigned indice,unsigned tam); 
+        ~Cadena();
+
     private:
         char* s_;
         unsigned tam_;

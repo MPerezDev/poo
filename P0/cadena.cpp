@@ -168,5 +168,46 @@ bool operator >=(const char* cad, const Cadena& c){
 }
 
 
+char& Cadena::at(unsigned i){
+
+    if(i<tam_){
+        return s_[i];
+    }else{
+        throw std::out_of_range("Fuera de rango");
+    }
 
 
+}
+char& Cadena::at(unsigned i) const{
+        
+    if(i<tam_){
+        return s_[i];
+    }else{
+        throw std::out_of_range("Fuera de rango");
+    }
+
+
+}
+
+Cadena Cadena::substr(unsigned indice,unsigned tamanno){
+
+    if(indice + tamanno <= tam_ && tamanno > 0){
+
+        Cadena aux(tamanno);
+        strncpy(aux.s_, s_+indice ,tamanno);
+        aux.s_[aux.tam_] = '/0';
+        return aux;
+
+
+    }else{
+        throw std::out_of_range("Substr fallido");
+    }
+
+}
+
+
+Cadena::~Cadena(){
+
+    
+
+}
