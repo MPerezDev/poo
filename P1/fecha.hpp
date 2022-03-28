@@ -9,9 +9,8 @@ class Fecha {
        Fecha(const char* cadena);
        //Fecha& operator =(const Fecha& f);
 
-
-       operator const char*() const;
-       //friend std::ostream& operator <<(std::ostream& os, Fecha& f);
+       //Método explícito cambiado
+       const char* cadena() const;
 
         static const int AnnoMaximo = 2037; //Año limite
         static const int AnnoMinimo = 1902;
@@ -66,5 +65,10 @@ Fecha& operator +(int n,const Fecha& f);
 Fecha& operator -(const Fecha& f,int n);
 Fecha& operator -(int n,const Fecha& f);
 
+//Sobrecarga de operador de inserción
+std::ostream& operator <<(std::ostream& os,const Fecha& f);
+
+//Sobrecarga de operador de extracción
+std::istream& operator >>(std::istream& is,Fecha& f);
 
 #endif

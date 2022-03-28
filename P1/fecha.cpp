@@ -7,8 +7,6 @@
 //#include <locale>
 //std::locale::global(std::locale("es_ES.utf8")); Para cambiar al sistema local
 
-//Fecha pendiente de compilar
-
 Fecha::Fecha(int d,int m, int a): dia_{d}, mes_{m}, anno_{a}{ //Asignamos los valores
 
     fechaSistema(); //Comprobamos si alguno de los atributos debe ser sustituido por los de la fecha actual del sistema
@@ -91,8 +89,8 @@ void Fecha::comprobarFecha(){
 
 }
 
-
-Fecha::operator const char*() const{
+//Método explícito de conversión a cadena 
+const char* Fecha::cadena() const{
 
     char dias_[7][15] = {"domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
     char meses_[12][15] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
@@ -103,8 +101,6 @@ Fecha::operator const char*() const{
     aux.tm_mon = mes_ -1;
     aux.tm_year = anno_ - 1900;
     mktime(&aux);
-
-    //Con estos cálculos obtenemos el día de la semana
     
 
     sprintf(cadena,"%s %d de %s de %d", dias_[aux.tm_wday], aux.tm_mday, meses_[aux.tm_mon],aux.tm_year+1900);
@@ -114,26 +110,35 @@ Fecha::operator const char*() const{
 }
 
 
-//Sobrecarga de operador <<
-/*std::ostream& operator <<(std::ostream& os, Fecha& f){
+//Sobrecarga de operador de inserción <<
+std::ostream& operator <<(std::ostream& os,const Fecha& f){
 
-    const char dias_[7][10] = {"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
-    const char meses_[12][15] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    char dias_[7][15] = {"domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
+    char meses_[12][15] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+    char * cadena = new char[50];
+    struct tm aux={};
+    aux.tm_mday = f.dia();
+    aux.tm_mon = f.mes() -1;
+    aux.tm_year = f.anno() - 1900;
+    mktime(&aux);
 
-    //Con estos cálculos obtenemos el día de la semana
-    int result1=(f.anno_-1)%7;
-    int result2=(f.anno_-1)/4;
-    int result3=(3*(((f.anno_-1)/100)+1))/4;
-    int result4=(result2-result3)%7;
-    int result5=f.dia_%7;
-    int diasem=(result1+result4+f.mes_+result5)%7;
+    return os << dias_[aux.tm_wday] << " " << aux.tm_mday << " de " << meses_[aux.tm_mon] << " de " << aux.tm_year + 1900;
 
-    return os << dias_[diasem] << " " << f.dia_ << " de " << meses_[f.mes_ - 1] << " de " << f.anno_;
+}
 
+//Sobrecarga de operador de extracción >>
+std::istream& operator >>(std::istream& is,Fecha& f){
 
+    char* cadAux = new char[11];
 
-}*/
+    is.width(11);
+    is >> cadAux;
+    Fecha fecAux(cadAux);
+    f = fecAux;
 
+    return is;
+
+}
 
 //Sobrecarga de operadores. Asignaciones
 
