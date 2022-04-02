@@ -1,16 +1,19 @@
 #ifndef FECHA_H_
 #define FECHA_H_
+#include <iostream>
 
 class Fecha {
     public:
        explicit Fecha(int d=0,int m=0,int a=0);
-       Fecha(const Fecha& f);
+       //Fecha(const Fecha& f);
        Fecha(const char* cadena);
-       Fecha& operator =(const Fecha& f);
-       friend std::ostream& operator <<(std::ostream& os, Fecha& f);
+       //Fecha& operator =(const Fecha& f);
 
-        static const int AnnoMax = 2037; //Año limite
-        static const int AnnoMin = 1902;
+       //Método explícito cambiado
+       const char* cadena() const;
+
+        static const int AnnoMaximo = 2037; //Año limite
+        static const int AnnoMinimo = 1902;
         class Invalida{ //Creamos una clase para las excepciones.
             public:
                 Invalida(const char* m): motivo{m} {}
@@ -30,7 +33,7 @@ class Fecha {
         Fecha& operator +=(int n);
         Fecha& operator -=(int n);
         
-        ~Fecha();
+        //~Fecha();
 
     private:
         int dia_;
@@ -39,7 +42,7 @@ class Fecha {
         void fechaSistema(); //fechaSistema sirve para darle los valores de la fecha del sistema
                              // a los atributos de la instancia
         void comprobarFecha();
-        const int dias [13] = {0,31,28,31,30,31,30,31,31,30,31,30,31}; //Usamos un vector en el que guardamos los días que tiene cada mes (en años no bisiestos)
+        //Usamos un vector en el que guardamos los días que tiene cada mes (en años no bisiestos)
 
 };
 
@@ -62,5 +65,10 @@ Fecha& operator +(int n,const Fecha& f);
 Fecha& operator -(const Fecha& f,int n);
 Fecha& operator -(int n,const Fecha& f);
 
+//Sobrecarga de operador de inserción
+std::ostream& operator <<(std::ostream& os,const Fecha& f);
+
+//Sobrecarga de operador de extracción
+std::istream& operator >>(std::istream& is,Fecha& f);
 
 #endif

@@ -7,16 +7,17 @@
 //#include <locale>
 //std::locale::global(std::locale("es_ES.utf8")); Para cambiar al sistema local
 
-//Fecha pendiente de compilar
-
 Fecha::Fecha(int d,int m, int a): dia_{d}, mes_{m}, anno_{a}{ //Asignamos los valores
 
     fechaSistema(); //Comprobamos si alguno de los atributos debe ser sustituido por los de la fecha actual del sistema
+    comprobarFecha();
 
 }
 
 //Constructor de copia no hace falta, se coge automáticamente con el constructor por defecto
-Fecha::Fecha(const Fecha& f): dia_(f.dia_), mes_(f.mes_), anno_(f.anno_){}
+//Fecha::Fecha(const Fecha& f): dia_(f.dia_), mes_(f.mes_), anno_(f.anno_){}
+
+
 //Constructor a partir de cadena
 Fecha::Fecha(const char* cadena){
 
@@ -36,6 +37,8 @@ Fecha::Fecha(const char* cadena){
 
 }
 
+
+
 //Añadir fecha actual del sistema en caso de que un dato no esté bien
 void Fecha::fechaSistema(){
 
@@ -49,7 +52,7 @@ void Fecha::fechaSistema(){
 }
 
 //Sobrecarga de asignación =
-Fecha& Fecha::operator =(const Fecha& f){
+/*Fecha& Fecha::operator =(const Fecha& f){
 
     dia_ = f.dia_;
     mes_ = f.mes_;
@@ -57,11 +60,13 @@ Fecha& Fecha::operator =(const Fecha& f){
 
     return *this;
 
-}
+}*/
 
 //Con este método comprobamos que la fecha esté dentro de los valores correctos
 void Fecha::comprobarFecha(){
 
+
+    static int dias[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
     int bisiesto = static_cast<int>(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0));
     //Usamos static_cast para convertir el resultado de la comprobación para saber si el año en cuestión es bisiesto
     //El resultado de la comprobación es un bool y lo cambiamos a un int
@@ -78,39 +83,76 @@ void Fecha::comprobarFecha(){
         throw Invalida ("Dia incorrecto");
     }
     
-    if(anno_ < AnnoMin || anno_ > AnnoMax){ //Comprobamos que el año introducido está dentro los valores permitidos
+    if(anno_ < AnnoMinimo || anno_ > AnnoMaximo){ //Comprobamos que el año introducido está dentro los valores permitidos
         throw Invalida ("Anno incorrecto");
     }
 
 }
 
-//Sobrecarga de operador <<
-std::ostream& operator <<(std::ostream& os, Fecha& f){
+//Método explícito de conversión a cadena 
+const char* Fecha::cadena() const{
 
-    const char dias_[7][10] = {"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
-    const char meses_[12][15] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    char dias_[7][15] = {"domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
+    char meses_[12][15] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
 
-    //Con estos cálculos obtenemos el día de la semana
-    int result1=(f.anno_-1)%7;
-    int result2=(f.anno_-1)/4;
-    int result3=(3*(((f.anno_-1)/100)+1))/4;
-    int result4=(result2-result3)%7;
-    int result5=f.dia_%7;
-    int diasem=(result1+result4+f.mes_+result5)%7;
+    char * cadena = new char[50];
+    struct tm aux={};
+    aux.tm_mday = dia_;
+    aux.tm_mon = mes_ -1;
+    aux.tm_year = anno_ - 1900;
+    mktime(&aux);
+    
 
-    return os << dias_[diasem] << " " << f.dia_ << " de " << meses_[f.mes_ - 1] << " de " << f.anno_;
+    sprintf(cadena,"%s %d de %s de %d", dias_[aux.tm_wday], aux.tm_mday, meses_[aux.tm_mon],aux.tm_year+1900);
 
-
+    return cadena;
 
 }
 
+
+//Sobrecarga de operador de inserción <<
+std::ostream& operator <<(std::ostream& os,const Fecha& f){
+
+    char dias_[7][15] = {"domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
+    char meses_[12][15] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+    char * cadena = new char[50];
+    struct tm aux={};
+    aux.tm_mday = f.dia();
+    aux.tm_mon = f.mes() -1;
+    aux.tm_year = f.anno() - 1900;
+    mktime(&aux);
+
+    return os << dias_[aux.tm_wday] << " " << aux.tm_mday << " de " << meses_[aux.tm_mon] << " de " << aux.tm_year + 1900;
+
+}
+
+//Sobrecarga de operador de extracción >>
+std::istream& operator >>(std::istream& is,Fecha& f){
+
+    char* cadAux = new char[11];
+
+    is.width(11);
+    is >> cadAux;
+    Fecha fecAux(cadAux);
+    f = fecAux;
+
+    return is;
+
+}
 
 //Sobrecarga de operadores. Asignaciones
 
 //Preincremento
 Fecha& Fecha::operator ++(){
 
-    dia_++;
+    dia_ += 1;
+    struct tm aux={};
+    aux.tm_mday = dia_;
+    aux.tm_mon = mes_ -1;
+    aux.tm_year = anno_ - 1900;
+    mktime(&aux);
+    
+    /*dia_++;
     if(dia_ > dias[mes_]){
         dia_ = 1;
         mes_++;
@@ -118,7 +160,11 @@ Fecha& Fecha::operator ++(){
             mes_ = 1;
             anno_++;
         }
-    }
+    }*/
+
+    dia_ = aux.tm_mday;
+    mes_ = aux.tm_mon +1;
+    anno_ = aux.tm_year + 1900;
 
     comprobarFecha();
 
@@ -130,7 +176,7 @@ Fecha& Fecha::operator ++(){
 Fecha Fecha::operator ++(int){
 
     Fecha f = *this;
-    (*this)++;
+    ++(*this);
     return f;
 
 }
@@ -138,16 +184,27 @@ Fecha Fecha::operator ++(int){
 //Predecremento
 Fecha& Fecha::operator --(){
 
-    dia_--;
+    /*dia_--;
     if(dia_ <= 0){
-        dia_ = dias[mes_-1];
+        dia_ = dias[mes_];
         mes_--;
         if(mes_ <= 0){
             mes_ = 12;
             anno_--;
         }
 
-    }
+    }*/
+
+    dia_ -= 1;
+    struct tm aux={};
+    aux.tm_mday = dia_;
+    aux.tm_mon = mes_ -1;
+    aux.tm_year = anno_ - 1900;
+    mktime(&aux);
+
+    dia_ = aux.tm_mday;
+    mes_ = aux.tm_mon +1;
+    anno_ = aux.tm_year + 1900;
 
     comprobarFecha();
     return *this;
@@ -158,7 +215,7 @@ Fecha& Fecha::operator --(){
 Fecha Fecha::operator --(int){
 
     Fecha f = *this;
-    (*this)--;
+    --(*this);
     return f;
 
 }
@@ -285,11 +342,11 @@ bool operator >=(const Fecha& fecha1, const Fecha& fecha2){
 
 //Destructor
 
-Fecha::~Fecha(){
+/*Fecha::~Fecha(){
 
 
 
-}
+}*/
 
 
 
