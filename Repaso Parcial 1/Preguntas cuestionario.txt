@@ -1,0 +1,15 @@
+Foto 1: Opción b
+Foto 2: Opción c
+Foto 3: Opción d
+Foto 4: Opción b
+Foto 5: Opción a
+Foto 6: Opción a
+Foto 7: Opción d
+Foto 8: double& operator ()(size_t i, size_t j): Como valor izquierdo y derecho, si la matriz no es const.
+Foto 9: Los constructores... aunque estas siempre...
+Foto 10: Opción a (definen automáticamente los operadores...)
+Foto 11: Cuatro constructores explícitos
+Foto 12: Repetida
+Foto 13: Opción c. Declara un constructor que permite construir una matriz a partir de una función
+Foto 14: Opción d
+Foto 15: Opción b
