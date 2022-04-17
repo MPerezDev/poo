@@ -15,6 +15,7 @@ class Cadena{
 
         explicit Cadena(unsigned tam=0, char c=' ');
         Cadena(const Cadena& c);
+        Cadena(Cadena&& c);
         Cadena(const char* c);
         
         Cadena& operator =(const Cadena& c);

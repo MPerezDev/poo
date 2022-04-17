@@ -122,7 +122,10 @@ std::ostream& operator <<(std::ostream& os,const Fecha& f){
     aux.tm_year = f.anno() - 1900;
     mktime(&aux);
 
-    return os << dias_[aux.tm_wday] << " " << aux.tm_mday << " de " << meses_[aux.tm_mon] << " de " << aux.tm_year + 1900;
+    sprintf(cadena,"%s %d de %s de %d", dias_[aux.tm_wday], aux.tm_mday, meses_[aux.tm_mon],aux.tm_year+1900);
+
+
+    return os << cadena;
 
 }
 
@@ -133,8 +136,14 @@ std::istream& operator >>(std::istream& is,Fecha& f){
 
     is.width(11);
     is >> cadAux;
-    Fecha fecAux(cadAux);
-    f = fecAux;
+    try{
+
+        f=Fecha(cadAux);
+
+    }catch(Fecha::Invalida a){
+        is.setstate(std::ios_base::failbit);
+        throw a;
+    }
 
     return is;
 
@@ -221,7 +230,7 @@ Fecha Fecha::operator --(int){
 }
 
 //Suma 1 (Fecha -- entero)
-Fecha& operator +(const Fecha& f,int n){
+Fecha operator +(const Fecha& f,int n){
 
     Fecha aux(f);
     while(n>0){
@@ -231,12 +240,12 @@ Fecha& operator +(const Fecha& f,int n){
 
     }
 
-    return (aux);
+    return aux;
 
 }
 
 //Suma 2 (entero -- Fecha)
-Fecha& operator +(int n,const Fecha& f){
+Fecha operator +(int n,const Fecha& f){
 
     Fecha aux(f);
     while(n>0){
@@ -246,12 +255,12 @@ Fecha& operator +(int n,const Fecha& f){
 
     }
 
-    return (aux);
+    return aux;
 
 }
 
 //Resta 1 (Fecha -- entero)
-Fecha& operator -(const Fecha& f,int n){
+Fecha operator -(const Fecha& f,int n){
 
     Fecha aux(f);
     while(n>0){
@@ -261,12 +270,12 @@ Fecha& operator -(const Fecha& f,int n){
 
     }
 
-    return (aux);
+    return aux;
 
 }
 
 //Resta 2 (entero -- Fecha)
-Fecha& operator -(int n,const Fecha& f){
+Fecha operator -(int n,const Fecha& f){
 
     Fecha aux(f);
     while(n>0){
@@ -276,7 +285,7 @@ Fecha& operator -(int n,const Fecha& f){
 
     }
 
-    return (aux);
+    return aux;
 
 }
 
@@ -347,6 +356,7 @@ bool operator >=(const Fecha& fecha1, const Fecha& fecha2){
 
 
 }*/
+
 
 
 

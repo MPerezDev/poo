@@ -4,7 +4,7 @@
 #include <string.h>
 #include "cadena.hpp"
 
-//Es más elegante poner la linea 10 y la 11 en la cabecera
+
 Cadena::Cadena(unsigned tam, char c){
 
     tam_ = tam;
@@ -17,6 +17,14 @@ Cadena::Cadena(unsigned tam, char c){
     }
       
     s_[tam_] = '\0';
+
+}
+
+//Constructor de movimiento
+Cadena::Cadena(Cadena&& c): s_(c.s_), tam_(c.tam_){
+    c.s_ = nullptr;
+    c.tam_ = 0;
+
 
 }
 
@@ -33,7 +41,8 @@ Cadena& Cadena::operator =(Cadena&& c){
     tam_ = c.tam_;
     strcpy(s_,c.s_);
 
-    c.~Cadena();
+    c.s_ = nullptr;
+    c.tam_ = 0;
     return *this;
 
 }
@@ -63,7 +72,7 @@ std::ostream& operator <<(std::ostream& os,const Cadena& c){
 //Sobrecarga de operador de extracción
 std::istream& operator >>(std::istream& is,Cadena& c){
 
-    char* cAux = new char[33];
+    char* cAux = new char[33]{'\0'};
 
     is.width(33);
     is >> cAux;

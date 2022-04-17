@@ -60,10 +60,10 @@ bool operator >=(const Fecha& fecha1, const Fecha& fecha2);
 //el caso de que sea entero + fecha o fecha + entero. Para el segundo nos valdría 
 //con el implícito pero para el primero no, por lo que declaramos ambos operadores fuera.
 //Se aplica igual para la suma.
-Fecha& operator +(const Fecha& f,int n);
-Fecha& operator +(int n,const Fecha& f);
-Fecha& operator -(const Fecha& f,int n);
-Fecha& operator -(int n,const Fecha& f);
+Fecha operator +(const Fecha& f,int n);
+Fecha operator +(int n,const Fecha& f);
+Fecha operator -(const Fecha& f,int n);
+Fecha operator -(int n,const Fecha& f);
 
 //Sobrecarga de operador de inserción
 std::ostream& operator <<(std::ostream& os,const Fecha& f);
