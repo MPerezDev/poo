@@ -1,10 +1,16 @@
+#ifndef USUARIO_H_
+#define USUARIO_H_
+
+
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include "../P1/cadena.hpp"
 #include "articulo.hpp"
+
+
 //#include <unistd.h>
 class Tarjeta;
 class Numero;
@@ -64,9 +70,13 @@ class Usuario{
         void es_titular_de(const Tarjeta& tarjeta);
         void no_es_titular_de(const Tarjeta& tarjeta);
 
-        void compra(const Articulo& articulo, size_t cantidad=1);
+        void compra(const Articulo& articulo, unsigned int cantidad=1);
 
         unsigned int n_articulos() const noexcept;
+
+        
+
+        friend std::ostream& operator <<(std::ostream& os,const Usuario& u); //Tenemos que hacerla friend para acceder a la clave
 
     private:
         const Cadena id_;
@@ -89,3 +99,8 @@ inline const Usuario::Tarjetas& Usuario::tarjetas() const noexcept{return tarjet
 inline const Usuario::Articulos& Usuario::compra() const noexcept{return compra_;}
 
 inline unsigned int Usuario::n_articulos() const noexcept{return compra_.size();}
+
+std::ostream& mostrar_carro(std::ostream& os, const Usuario& u);
+
+
+#endif

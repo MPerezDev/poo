@@ -1,7 +1,7 @@
 #include "usuario.hpp"
-#include <string>
-
-//#include <unistd.h>
+#include <string.h>
+#include <iomanip>
+#include <unistd.h>
 
 
 Clave::Clave(const char* passwd){
@@ -62,4 +62,47 @@ void Usuario::no_es_titular_de(const Tarjeta& tarjeta){
 
     tarjetas_.erase(tarjeta.numero());
     
+}
+
+void Usuario::compra(const Articulo& articulo, unsigned int cantidad){
+
+    if(cantidad==0){
+        compra_.erase(articulo);
+    }else{
+        compra_[articulo] = cantidad;
+    }
+
+}
+
+std::ostream& operator <<(std::ostream& os,const Usuario& u){
+
+    os << u.id_ << "[" << u.contrasenna_.clave() << "]" << u.nombre_ << u.apellidos_ << std::endl << u.direccion_ << std::endl << "Tarjetas:" << std::endl;
+
+    for(auto it=tarjetas_.begin(); it!=tarjetas_.end(); it++){
+
+        os << it->second << std::endl;
+
+    }
+
+    return os;
+
+}
+
+std::ostream& mostrar_carro(std::ostream& os, const Usuario& u){
+
+    os << "Carrito de compra de " << u.id() << " [Artículos: " << u.n_articulos() << "]" << std::endl;
+
+    os << "Cant.Artículo"<< std::endl << std::setw(50) << std::setfill('=') << '\n' << std::setfill(' ');
+
+
+
+        for(auto it = u.compra().begin(); it != u.compra().end(); it++){
+
+            os << std::setw(4) << it->second << "    " << it->first << std::endl;
+
+        }
+
+    return os;
+    
+
 }

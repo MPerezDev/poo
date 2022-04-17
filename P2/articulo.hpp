@@ -1,3 +1,7 @@
+#ifndef ARTICULO_H_
+#define ARTICULO_H_
+
+
 #include <iostream>
 #include "../P1/cadena.hpp"
 #include "../P1/fecha.hpp"
@@ -37,3 +41,6 @@ inline double Articulo::precio() const noexcept {return precio_;}
 inline double& Articulo::precio() {return precio_;}
 inline size_t Articulo::stock() const noexcept {return stock_;}
 inline size_t& Articulo::stock() {return stock_;}
+
+
+#endif
