@@ -1,11 +1,12 @@
 #include <iostream>
+#include <valarray>
 
 
 class Vector{
 
     public:
 /*a)*/  explicit Vector(size_t n,double d=0.);
-        Vector(std::initializer_list<double> l);
+        Vector(std::initializer_list<std::valarray<int>> l);
 /*c)*/  ~Vector();
 /*d)*/  Vector(const Vector& v);
 /*e)*/  Vector(Vector&& v);
@@ -26,10 +27,11 @@ Vector::Vector(size_t n,double d): n(n), datos(new double[n]){
     }
 }
 
-Vector::Vector(std::initializer_list<double> l):n(l.size()), datos(new double[l.size()]) {
+
+Vector::Vector(std::initializer_list<std::valarray<int>> l):n(l.size()), datos(new double[l.size()]) {
 
     std::copy(l.begin(),l.end(),datos);
-
+    std::cout << std::begin(*l.begin());
 }
 
 

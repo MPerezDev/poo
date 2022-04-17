@@ -13,3 +13,5 @@ Foto 12: Repetida
 Foto 13: Opción c. Declara un constructor que permite construir una matriz a partir de una función
 Foto 14: Opción d
 Foto 15: Opción b
+
+a(3,4)
