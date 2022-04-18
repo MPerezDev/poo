@@ -78,7 +78,7 @@ std::ostream& operator <<(std::ostream& os,const Usuario& u){
 
     os << u.id_ << "[" << u.contrasenna_.clave() << "]" << u.nombre_ << u.apellidos_ << std::endl << u.direccion_ << std::endl << "Tarjetas:" << std::endl;
 
-    for(auto it=tarjetas_.begin(); it!=tarjetas_.end(); it++){
+    for(auto it=u.tarjetas_.begin(); it!=u.tarjetas_.end(); it++){
 
         os << it->second << std::endl;
 
